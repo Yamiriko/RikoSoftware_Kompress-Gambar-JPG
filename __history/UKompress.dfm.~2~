@@ -37,6 +37,7 @@ object FKompress: TFKompress
     Height = 25
     Align = alBottom
     TabOrder = 0
+    ExplicitWidth = 426
   end
   object BtnLoad: TButton
     Left = 248
@@ -55,7 +56,7 @@ object FKompress: TFKompress
   end
   object BtnSimpan: TButton
     Left = 248
-    Top = 143
+    Top = 144
     Width = 205
     Height = 41
     Caption = 'Simpan Gambar'
@@ -101,6 +102,7 @@ object FKompress: TFKompress
       Height = 37
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
+      ExplicitWidth = 153
     end
   end
   object OpenPictureDialog1: TOpenPictureDialog

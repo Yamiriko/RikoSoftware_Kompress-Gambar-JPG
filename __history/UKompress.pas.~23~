@@ -42,7 +42,6 @@ type
 var
   FKompress: TFKompress;
   FotoIn,FotoOut : string;
-  ExtFile,pesannya:string;
 
 implementation
 
@@ -52,6 +51,7 @@ procedure TFKompress.BtnLoadClick(Sender: TObject);
 var
   bs:TMemoryStream;
   jpg,i:TJPEGImage;
+  ExtFile,pesannya:string;
 begin
   if OpenPictureDialog1.Execute then begin
     FotoIn:=OpenPictureDialog1.FileName;
@@ -78,15 +78,14 @@ var
   jpeg: TJPEGImage;
   bmp:  TBitmap;
   hasilnya : TStringStream;
-  inputtannya,prosesnya : TMemoryStream;
+  prosesnya : TMemoryStream;
 begin
   if TrackBar1.Position <> 0 then begin
     if SavePictureDialog1.Execute then begin
-      FotoOut:=SavePictureDialog1.FileName + ExtFile;
+      FotoOut:=SavePictureDialog1.FileName;
       ProgressBar1.Position:=10;
       try
         prosesnya:=TMemoryStream.Create;
-        inputtannya:=TMemoryStream.Create;
         hasilnya:=TStringStream.Create;
 
         jpeg := TJpegImage.Create;
@@ -107,8 +106,7 @@ begin
         jpeg.Compress;
         ProgressBar1.Position:=80;
         jpeg.SaveToFile(FotoOut);
-        jpeg.SaveToStream(prosesnya);
-        prosesnya.Position:=0;
+//        jpeg.SaveToStream(prosesnya);
 
         TNetEncoding.Base64.Encode(prosesnya,hasilnya);
         Memo1.Clear;
@@ -117,9 +115,6 @@ begin
 
         ProgressBar1.Position:=90;
       finally
-        inputtannya.Free;
-        prosesnya.Free;
-        hasilnya.Free;
         bmp.Free;
         jpeg.Free;
       end;

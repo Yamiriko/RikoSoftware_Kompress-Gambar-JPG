@@ -107,9 +107,18 @@ begin
         jpeg.Compress;
         ProgressBar1.Position:=80;
         jpeg.SaveToFile(FotoOut);
-        jpeg.SaveToStream(prosesnya);
-        prosesnya.Position:=0;
 
+        //jadi base64
+        Image1.Picture.SaveToStream();
+        jpeg.LoadFromFile(FotoIn);
+        bmp.Assign(jpeg);
+        bmp.Width := jpeg.Width div 2;
+        bmp.Height := jpeg.Height div 2;
+        bmp.Canvas.StretchDraw(bmp.Canvas.ClipRect, jpeg);
+        jpeg.Assign(bmp);
+        jpeg.CompressionQuality := TrackBar1.Position * 10;
+        jpeg.Compress;
+        jpeg.SaveToFile(FotoOut);
         TNetEncoding.Base64.Encode(prosesnya,hasilnya);
         Memo1.Clear;
         Memo1.Lines.Clear;

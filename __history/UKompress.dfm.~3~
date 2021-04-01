@@ -4,8 +4,8 @@ object FKompress: TFKompress
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Kompres JPG Menggunakan Delphi | Riko Software'
-  ClientHeight = 422
-  ClientWidth = 606
+  ClientHeight = 319
+  ClientWidth = 461
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,9 +15,6 @@ object FKompress: TFKompress
   OldCreateOrder = False
   Position = poScreenCenter
   OnShow = FormShow
-  DesignSize = (
-    606
-    422)
   PixelsPerInch = 96
   TextHeight = 13
   object Bevel1: TBevel
@@ -35,18 +32,16 @@ object FKompress: TFKompress
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 397
-    Width = 606
+    Top = 294
+    Width = 461
     Height = 25
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 294
-    ExplicitWidth = 461
   end
   object BtnLoad: TButton
-    Left = 247
-    Top = 9
-    Width = 351
+    Left = 248
+    Top = 8
+    Width = 205
     Height = 41
     Caption = 'Load Gambar'
     Font.Charset = ANSI_CHARSET
@@ -59,11 +54,10 @@ object FKompress: TFKompress
     OnClick = BtnLoadClick
   end
   object BtnSimpan: TButton
-    Left = 247
+    Left = 248
     Top = 143
-    Width = 351
+    Width = 205
     Height = 41
-    Anchors = [akLeft, akTop, akRight]
     Caption = 'Simpan Gambar'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
@@ -75,15 +69,14 @@ object FKompress: TFKompress
     OnClick = BtnSimpanClick
   end
   object GroupBox1: TGroupBox
-    Left = 247
+    Left = 248
     Top = 56
-    Width = 351
+    Width = 205
     Height = 81
-    Anchors = [akLeft, akTop, akRight]
     Caption = 'Kualitas Gambar'
     TabOrder = 3
     DesignSize = (
-      351
+      205
       81)
     object Min: TLabel
       Left = 16
@@ -93,7 +86,7 @@ object FKompress: TFKompress
       Caption = 'Min'
     end
     object Label1: TLabel
-      Left = 318
+      Left = 172
       Top = 56
       Width = 20
       Height = 13
@@ -104,36 +97,22 @@ object FKompress: TFKompress
     object TrackBar1: TTrackBar
       Left = 8
       Top = 20
-      Width = 335
+      Width = 189
       Height = 37
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
-      ExplicitWidth = 189
     end
-  end
-  object Memo1: TMemo
-    Left = 247
-    Top = 190
-    Width = 351
-    Height = 192
-    Anchors = [akLeft, akTop, akRight, akBottom]
-    Lines.Strings = (
-      'Memo1')
-    ScrollBars = ssVertical
-    TabOrder = 4
-    ExplicitWidth = 206
-    ExplicitHeight = 89
   end
   object OpenPictureDialog1: TOpenPictureDialog
     Filter = 
       'All (*.jpg;*.jpeg)|*.jpg;*.jpeg|JPEG Image File (*.jpg)|*.jpg|JP' +
       'EG Image File (*.jpeg)|*.jpeg'
-    Left = 96
-    Top = 80
+    Left = 256
+    Top = 208
   end
   object SavePictureDialog1: TSavePictureDialog
     Filter = 'JPEG Image File (*.jpg)|*.jpg|JPEG Image File (*.jpeg)|*.jpeg'
-    Left = 128
-    Top = 80
+    Left = 288
+    Top = 208
   end
 end

@@ -14,7 +14,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, ComCtrls, ExtCtrls, StdCtrls, ExtDlgs, jpeg;
+  Dialogs, ComCtrls, ExtCtrls, StdCtrls, ExtDlgs, jpeg, System.NetEncoding;
 
 type
   TFKompress = class(TForm)
@@ -29,6 +29,7 @@ type
     TrackBar1: TTrackBar;
     Min: TLabel;
     Label1: TLabel;
+    Memo1: TMemo;
     procedure BtnLoadClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure BtnSimpanClick(Sender: TObject);
@@ -41,6 +42,7 @@ type
 var
   FKompress: TFKompress;
   FotoIn,FotoOut : string;
+  ExtFile,pesannya:string;
 
 implementation
 
@@ -53,7 +55,15 @@ var
 begin
   if OpenPictureDialog1.Execute then begin
     FotoIn:=OpenPictureDialog1.FileName;
-    Image1.Picture.LoadFromFile(FotoIn);
+    ExtFile:=ExtractFileExt(OpenPictureDialog1.FileName);
+    if ((ExtFile = '.jpg') or (ExtFile = 'jpeg')) then begin
+      Image1.Picture.LoadFromFile(FotoIn);
+    end
+    else begin
+      pesannya:='Hanya Boleh Berextensi JPG/JPEG !';
+      MessageBox(FKompress.Handle,PChar(pesannya),
+      PChar('Error Woy !'), MB_ICONERROR);
+    end;
   end;
 end;
 
@@ -67,12 +77,18 @@ procedure TFKompress.BtnSimpanClick(Sender: TObject);
 var
   jpeg: TJPEGImage;
   bmp:  TBitmap;
+  hasilnya : TStringStream;
+  inputtannya,prosesnya : TMemoryStream;
 begin
   if TrackBar1.Position <> 0 then begin
     if SavePictureDialog1.Execute then begin
-      FotoOut:=SavePictureDialog1.FileName;
+      FotoOut:=SavePictureDialog1.FileName + ExtFile;
       ProgressBar1.Position:=10;
       try
+        prosesnya:=TMemoryStream.Create;
+        inputtannya:=TMemoryStream.Create;
+        hasilnya:=TStringStream.Create;
+
         jpeg := TJpegImage.Create;
         ProgressBar1.Position:=20;
         bmp  := TBitmap.Create;
@@ -80,6 +96,9 @@ begin
         jpeg.LoadFromFile(FotoIn);
         ProgressBar1.Position:=40;
         bmp.Assign(jpeg);
+        bmp.Width := jpeg.Width div 2;
+        bmp.Height := jpeg.Height div 2;
+        bmp.Canvas.StretchDraw(bmp.Canvas.ClipRect, jpeg);
         ProgressBar1.Position:=50;
         jpeg.Assign(bmp);
         ProgressBar1.Position:=60;
@@ -88,8 +107,27 @@ begin
         jpeg.Compress;
         ProgressBar1.Position:=80;
         jpeg.SaveToFile(FotoOut);
+
+        //jadi base64
+        Image1.Picture.SaveToStream(inputtannya);
+        bmp.Assign(jpeg);
+        bmp.Width := jpeg.Width div 2;
+        bmp.Height := jpeg.Height div 2;
+        bmp.Canvas.StretchDraw(bmp.Canvas.ClipRect, jpeg);
+        jpeg.Assign(bmp);
+        jpeg.CompressionQuality := TrackBar1.Position * 10;
+        jpeg.Compress;
+        jpeg.SaveToFile(FotoOut);
+        TNetEncoding.Base64.Encode(prosesnya,hasilnya);
+        Memo1.Clear;
+        Memo1.Lines.Clear;
+        Memo1.Lines.Add('data:image/jpeg;base64,' + hasilnya.DataString);
+
         ProgressBar1.Position:=90;
       finally
+        inputtannya.Free;
+        prosesnya.Free;
+        hasilnya.Free;
         bmp.Free;
         jpeg.Free;
       end;

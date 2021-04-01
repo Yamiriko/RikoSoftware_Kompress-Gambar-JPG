@@ -80,9 +80,6 @@ begin
         jpeg.LoadFromFile(FotoIn);
         ProgressBar1.Position:=40;
         bmp.Assign(jpeg);
-        bmp.Width := jpeg.Width div 2;
-        bmp.Height := jpeg.Height div 2;
-        bmp.Canvas.StretchDraw(bmp.Canvas.ClipRect, jpeg);
         ProgressBar1.Position:=50;
         jpeg.Assign(bmp);
         ProgressBar1.Position:=60;
